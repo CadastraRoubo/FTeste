@@ -21,10 +21,12 @@ function windowResize(){
     if(!document.querySelector(".is-small-screen")){
         document.querySelector(".title").style = "margin-left: -55px;";
         document.getElementById("demo-menu-lower-right").style = "margin-right: -15px;";
+        //document.getElementById("login").style = "margin-right: -15px;";
     }
     else{
         document.querySelector(".title").style = "margin-left: 0px;";
         document.getElementById("demo-menu-lower-right").style = "margin-right: 0px;";
+        //document.getElementById("login").style = "margin-right: 0px;";
     }
 }
 

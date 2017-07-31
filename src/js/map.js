@@ -22,7 +22,7 @@ var markers;
 var markerCluster;
 
 // Store the server address and port
-var server = "http://192.168.0.92:3000";
+var server = "https://node.uchiha.xyz";
 
 function addControl(nome, radi, func, icon, title) {
 
@@ -100,8 +100,14 @@ function aud(aaaa) {
             desc = "Sem descrição."
         }
         desc = desc.substr(0, 300);
-        var tipo = document.querySelector('input[name="tipo"]:checked').value; // get the selected value
-        
+
+        //var tipo = document.querySelector('input[name="tipo"]:checked').value; // get the selected value
+        var tipo = document.getElementById('tipo').value; // get the selected value
+        if(!tipo){
+            tipo = "Não especificado."
+        }
+        tipo = tipo.substr(0, 50);
+
         if (!Date.now) {
             // To IE8...
             Date.now = function() { return new Date().getTime(); }
@@ -131,7 +137,8 @@ function aud(aaaa) {
                             title: tipo,
                             descricao: desc,
                             id: newId(),
-                            _id: m._id
+                            _id: m._id,
+                            icon: './src/img/icon.png'
                         });
                         
                         markers.push(marker); // Add new marker to array of markers
@@ -140,8 +147,10 @@ function aud(aaaa) {
                             // Insert data from marker on form
                             document.getElementById("d-title").innerHTML = "Atualizar";
                             document.getElementById("desc").value = this.descricao;
-                            document.querySelector('input[value="'+ this.title +'"]').checked = true;
+                            //document.querySelector('input[value="'+ this.title +'"]').checked = true;
+                            document.getElementById('tipo').value = this.title;
                             dialog.id = this.id;
+                            document.getElementById("delete-btn").style.display = "inherit";
                             dialog.showModal();
                             dialog.addEventListener('close', aud);
                         });
@@ -161,6 +170,8 @@ function aud(aaaa) {
             
             add.open("POST", url ,true);
             add.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            add.setRequestHeader("access-token", accessToken);
+            add.setRequestHeader("user-id", id);
             add.send("lat="+ eventoAdd.latLng.lat() +"&lng="+ eventoAdd.latLng.lng() +"&date="+ data +"&type="+ tipo +"&desc="+ desc +"&facebook_id="+id);
         }
         else{
@@ -204,6 +215,8 @@ function aud(aaaa) {
             
             up.open("PUT", url ,true);
             up.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            up.setRequestHeader("access-token", accessToken);
+            up.setRequestHeader("user-id", id);
             up.send("&type="+ tipo +"&desc="+ desc);
         }
     }
@@ -250,6 +263,8 @@ function aud(aaaa) {
                 
                 del.open("DELETE", url ,true);
                 del.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                del.setRequestHeader("access-token", accessToken);
+                del.setRequestHeader("user-id", id);
                 del.send();
             }
             else{
@@ -263,7 +278,9 @@ function aud(aaaa) {
     dialog.removeEventListener("close", aud); 
     // Return elements to default state
     document.getElementById("desc").value = "";
-    document.querySelector('input[value="Roubo"]').checked = true;
+    //document.querySelector('input[value="Roubo"]').checked = true;
+    document.getElementById('tipo').value = "";
+    document.getElementById("delete-btn").style.display = "none";
     titulo.innerHTML = "Adicionar novo";
 }
 
@@ -460,15 +477,18 @@ function initMap() {
                 title: pos.type,
                 descricao: pos.desc,
                 id: i,
-                _id: pos._id
+                _id: pos._id,
+                icon: './src/img/icon.png'
             });
             
             marker.addListener('click', function() {
                 // Insert data from marker on form
                 document.getElementById("d-title").innerHTML = "Atualizar";
                 document.getElementById("desc").value = this.descricao;
-                document.querySelector('input[value="'+ this.title +'"]').checked = true;
+                //document.querySelector('input[value="'+ this.title +'"]').checked = true;
+                document.getElementById('tipo').value = this.title;
                 dialog.id = this.id;
+                document.getElementById("delete-btn").style.display = "inherit";
                 dialog.showModal();
                 dialog.addEventListener('close', aud);
             });
