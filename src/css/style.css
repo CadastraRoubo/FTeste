@@ -76,7 +76,6 @@
  * Custom styles for dialog element
  */
 .mdl-dialog{
-  margin-top: -80px;
   width: 30%;
   min-width: 257px;
 }
@@ -109,7 +108,22 @@
 .mdl-textfield{
   width: 100%;
 }
-
+/*
 .mdl-layout__content{
-  height: 100%;
+  aheight: 100%;
+}*/
+
+.about-img{
+  border: 3px solid #111;
+  border-radius: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.about-fs{
+  font-size: 17px;
+}
+
+.about-fs p{
+  font-size: 17px;
 }

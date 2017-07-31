@@ -3,26 +3,42 @@
  */
 console.log('FB api');
 var id;
+var accessToken;
 var btnlogin;
+
+function fbLogoutUser() {
+    FB.getLoginStatus(function(response) {
+        if (response && response.status === 'connected') {
+            FB.logout(function(response) {
+                document.location.reload();
+            });
+        }
+    });
+}
 
 function userConnected(){
     FB.api('/me', function(response){
         document.getElementById("login").innerHTML = response.name;
+        document.getElementById("sair").onclick = function () { fbLogoutUser(); };
+        document.getElementById("sair").style.display = "inherit";
     });
+    
 }
 
 function statusChangedCallback(response) {
-    //console.log(response.authResponse.accessToken)
-	id = response.authResponse.userID;
+    /**/
+    //console.log(response.authResponse)
     if(response.status == 'connected'){
+        accessToken = response.authResponse.accessToken;
+        id = response.authResponse.userID;
         btnlogin.onclick = function () {console.log("logado");};
         userConnected();
     }
     else if(response.status == 'not_authorized'){
-        alert("faça login");
+        alert("Faça login no ícone de usuário.");
     }
     else{
-        alert("faça login");
+        alert("Entre no Facebook para usar o site.");
     }
 }
 
