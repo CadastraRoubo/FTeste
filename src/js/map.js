@@ -22,7 +22,7 @@ var markers;
 var markerCluster;
 
 // Store the server address and port
-var server = "http://192.168.0.92:3000";
+var server = "http://node.uchiha.xyz";
 
 function addControl(nome, radi, func, icon, title) {
 
